@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import AddTask from "../Components/AddTask";
+import Logout from "../Components/Logout";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ const Home: React.FC = () => {
 
   return (
     <div>
+      <Logout />
       <AddTask />
       {tasks.map((task: { taskTitle: String; taskDescription: String }, i) => {
         return (
