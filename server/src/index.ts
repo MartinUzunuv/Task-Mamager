@@ -97,6 +97,38 @@ app.post("/getTasks", async (req: Request, res: Response) => {
   }
 });
 
+app.post("/addTask", async (req: Request, res: Response) => {
+  const { name, pass, taskTitle, taskDescription } = req.body;
+  if (name && pass && taskDescription && taskTitle) {
+    try {
+      const account = await accounts.findOne({ name, pass });
+      if (!account) {
+        res.send("False credentials");
+      } else {
+        const tryToFindIfTitleIsTaken = await tasks.findOne({
+          name,
+          taskTitle,
+        });
+        if (!tryToFindIfTitleIsTaken) {
+          await tasks.insertOne({
+            name,
+            taskTitle,
+            taskDescription,
+          });
+          res.send("OK");
+        } else {
+          res.send("Name taken");
+        }
+      }
+    } catch (error) {
+      console.error("Error querying the database", error);
+      res.status(500).send("Internal server error");
+    }
+  } else {
+    res.status(400).send("Invalid credentials");
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });

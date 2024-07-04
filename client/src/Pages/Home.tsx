@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import AddTask from "../Components/AddTask";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -30,7 +31,19 @@ const Home: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <div>Home</div>;
+  return (
+    <div>
+      <AddTask />
+      {tasks.map((task: { taskTitle: String; taskDescription: String }, i) => {
+        return (
+          <div key={i}>
+            <h3>{task.taskTitle || ""}</h3>
+            <h6>{task.taskDescription || ""}</h6>
+          </div>
+        );
+      })}
+    </div>
+  );
 };
 
 export default Home;
