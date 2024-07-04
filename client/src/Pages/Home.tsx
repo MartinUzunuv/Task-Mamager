@@ -15,7 +15,9 @@ const Home: React.FC = () => {
           pass: localStorage.getItem("pass"),
         })
         .then((response) => {
-          console.log(response.data);
+          if (response.data !== "OK") {
+            navigate("/login");
+          }
         })
         .catch((error) => {
           console.error("There was an error making the request:", error);
