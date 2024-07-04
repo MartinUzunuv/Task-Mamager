@@ -9,6 +9,7 @@ dotenv.config();
 const url = process.env.MONGODBURL || "";
 const port = process.env.PORT || 9000;
 let accounts: Collection;
+let tasks: Collection;
 
 async function connectToDatabase() {
   try {
@@ -16,10 +17,11 @@ async function connectToDatabase() {
     await client.connect();
     const database = client.db("task-manager");
     accounts = database.collection("accounts");
+    tasks = database.collection("tasks");
     console.log("Connected to the database");
   } catch (error) {
     console.error("Failed to connect to the database", error);
-    process.exit(1); // Exit the process with an error code
+    process.exit(1);
   }
 }
 
@@ -44,6 +46,47 @@ app.post("/tryToLogIn", async (req: Request, res: Response) => {
         res.send("Invalid");
       } else {
         res.send("OK");
+      }
+    } catch (error) {
+      console.error("Error querying the database", error);
+      res.status(500).send("Internal server error");
+    }
+  } else {
+    res.status(400).send("Invalid credentials");
+  }
+});
+
+app.post("/signin", async (req: Request, res: Response) => {
+  const { name, pass } = req.body;
+  if (name && pass) {
+    try {
+      const account = await accounts.findOne({ name: name, pass: pass });
+      if (!account) {
+        const newAcc = await accounts.insertOne({ name: name, pass: pass });
+        console.log(newAcc);
+        res.send("OK");
+      } else {
+        res.send("Chosse different name");
+      }
+    } catch (error) {
+      console.error("Error querying the database", error);
+      res.status(500).send("Internal server error");
+    }
+  } else {
+    res.status(400).send("Invalid credentials");
+  }
+});
+
+app.post("/getTasks", async (req: Request, res: Response) => {
+  const { name, pass } = req.body;
+  if (name && pass) {
+    try {
+      const account = await accounts.findOne({ name: name, pass: pass });
+      if (!account) {
+        res.send({ message: "Invalid" });
+      } else {
+        const tasksOfTheAccount = await tasks.find({ name: name }).toArray();
+        res.send({ message: "OK", tasks: tasksOfTheAccount });
       }
     } catch (error) {
       console.error("Error querying the database", error);

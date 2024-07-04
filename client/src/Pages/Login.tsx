@@ -1,14 +1,34 @@
 import React, { useState } from "react";
 import "../styles/login.css";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-
+  const navigate = useNavigate();
+  
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Name:", name);
     console.log("Password:", password);
+    axios
+      .post("http://localhost:9000/tryToLogIn", {
+        name: name,
+        pass: password,
+      })
+      .then((response) => {
+        if (response.data !== "OK") {
+          alert("Invalid credentials");
+        } else {
+          localStorage.setItem("name", name)
+          localStorage.setItem("pass", password);
+          navigate("/")
+        }
+      })
+      .catch((error) => {
+        console.error("There was an error making the request:", error);
+      });
   };
 
   return (
@@ -48,7 +68,7 @@ const Login: React.FC = () => {
             Submit
           </button>
         </form>
-        <a href="/create-account" className="link">
+        <a href="/signin" className="link">
           Create Account
         </a>
       </div>
