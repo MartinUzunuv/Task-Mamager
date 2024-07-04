@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "../styles/addTask.css";
 
 const AddTask: React.FC = () => {
   const navigate = useNavigate();
@@ -41,20 +42,25 @@ const AddTask: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="taskForm" onSubmit={handleSubmit}>
       <div>
-        <label htmlFor="title">Title</label>
+        <label htmlFor="title">Title: </label>
+        <br></br>
         <input
+          className="textInput"
           type="text"
           id="title"
           name="title"
+          required
           value={formData.title}
           onChange={handleChange}
         />
       </div>
       <div>
-        <label htmlFor="description">Description</label>
+        <label htmlFor="description">Description: </label>
+        <br></br>
         <input
+          className="textInput"
           type="text"
           id="description"
           name="description"
@@ -62,6 +68,7 @@ const AddTask: React.FC = () => {
           onChange={handleChange}
         />
       </div>
+      <br></br>
       <button type="submit">Submit</button>
     </form>
   );

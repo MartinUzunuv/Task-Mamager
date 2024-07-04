@@ -58,7 +58,10 @@ const Task: React.FC<TaskItemProps> = ({
   };
 
   return (
-    <div style={completed ? {backgroundColor: "green"} : {}} className="taskCard">
+    <div
+      style={completed ? { backgroundColor: "#68fc60" } : {}}
+      className="taskCard"
+    >
       <div className="texts">
         <h3>{taskTitle || ""}</h3>
         <h6>{taskDescription || ""}</h6>

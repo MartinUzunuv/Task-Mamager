@@ -4,6 +4,7 @@ import axios from "axios";
 import AddTask from "../Components/AddTask";
 import Logout from "../Components/Logout";
 import Task from "../Components/Task";
+import "../styles/home.css"
 
 interface TaskInterface {
   taskTitle: string;
@@ -13,7 +14,7 @@ interface TaskInterface {
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
-  const [tasks, setTasks] = useState([])
+  const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
     if (!(localStorage.getItem("name") && localStorage.getItem("pass"))) {
@@ -26,7 +27,7 @@ const Home: React.FC = () => {
         })
         .then((response) => {
           if (response.data.message === "OK") {
-            console.log(response.data.tasks)
+            console.log(response.data.tasks);
             setTasks(response.data.tasks);
           } else {
             navigate("/login");
@@ -41,7 +42,10 @@ const Home: React.FC = () => {
 
   return (
     <div>
-      <Logout />
+      <div className="accountSection">
+        <h5>{ localStorage.getItem("name") }</h5>
+        <Logout />
+      </div>
       <AddTask />
       {tasks.map((task: TaskInterface, i) => (
         <Task
