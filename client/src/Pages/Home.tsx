@@ -3,6 +3,12 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import AddTask from "../Components/AddTask";
 import Logout from "../Components/Logout";
+import Task from "../Components/Task";
+
+interface TaskInterface {
+  taskTitle: string;
+  taskDescription: string;
+}
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -36,14 +42,13 @@ const Home: React.FC = () => {
     <div>
       <Logout />
       <AddTask />
-      {tasks.map((task: { taskTitle: String; taskDescription: String }, i) => {
-        return (
-          <div key={i}>
-            <h3>{task.taskTitle || ""}</h3>
-            <h6>{task.taskDescription || ""}</h6>
-          </div>
-        );
-      })}
+      {tasks.map((task: TaskInterface, i) => (
+        <Task
+          key={i}
+          taskTitle={task.taskTitle}
+          taskDescription={task.taskDescription}
+        />
+      ))}
     </div>
   );
 };
