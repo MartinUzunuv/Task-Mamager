@@ -1,0 +1,29 @@
+.taskCard {
+    background-color: darkgray;
+    border-radius: 10px;
+    margin: 20px;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    flex-wrap: wrap;
+}
+
+.buttonsGroup {
+    min-width: 100px;
+}
+
+.deleteButton {
+    margin-right: 5px;
+    background-color: crimson;
+}
+
+button {
+    border-radius: 3px;
+    border: none;
+    padding: 5px;
+}
+
+.texts {
+    min-width: 300px;
+    text-align: left;
+}

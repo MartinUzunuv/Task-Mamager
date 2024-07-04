@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "../styles/task.css";
 
 interface TaskItemProps {
   taskTitle: string;
@@ -57,13 +58,19 @@ const Task: React.FC<TaskItemProps> = ({
   };
 
   return (
-    <div>
-      <h3>{taskTitle || ""}</h3>
-      <h6>{taskDescription || ""}</h6>
-      <button onClick={onDelete}>Delete</button>
-      <button onClick={onComplete}>
-        {!completed ? "Complete" : "Restore"}
-      </button>
+    <div style={completed ? {backgroundColor: "green"} : {}} className="taskCard">
+      <div className="texts">
+        <h3>{taskTitle || ""}</h3>
+        <h6>{taskDescription || ""}</h6>
+      </div>
+      <div className="buttonsGroup">
+        <button className="deleteButton" onClick={onDelete}>
+          Delete
+        </button>
+        <button onClick={onComplete}>
+          {!completed ? "Complete" : "Restore"}
+        </button>
+      </div>
     </div>
   );
 };
