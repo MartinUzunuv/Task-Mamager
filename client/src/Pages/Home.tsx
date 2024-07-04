@@ -8,6 +8,7 @@ import Task from "../Components/Task";
 interface TaskInterface {
   taskTitle: string;
   taskDescription: string;
+  completed: boolean;
 }
 
 const Home: React.FC = () => {
@@ -47,6 +48,7 @@ const Home: React.FC = () => {
           key={i}
           taskTitle={task.taskTitle}
           taskDescription={task.taskDescription}
+          completed={task.completed}
         />
       ))}
     </div>

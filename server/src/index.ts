@@ -114,6 +114,7 @@ app.post("/addTask", async (req: Request, res: Response) => {
             name,
             taskTitle,
             taskDescription,
+            completed: false,
           });
           res.send("OK");
         } else {
@@ -138,6 +139,26 @@ app.post("/deleteTask", async (req: Request, res: Response) => {
         res.send("Invalid");
       } else {
         await tasks.deleteOne({ taskTitle, name })
+        res.send("OK");
+      }
+    } catch (error) {
+      console.error("Error querying the database", error);
+      res.status(500).send("Internal server error");
+    }
+  } else {
+    res.status(400).send("Invalid credentials");
+  }
+});
+
+app.post("/completeTask", async (req: Request, res: Response) => {
+  const { name, pass, taskTitle, completed } = req.body;
+  if (name && pass) {
+    try {
+      const account = await accounts.findOne({ name: name, pass: pass });
+      if (!account) {
+        res.send("Invalid");
+      } else {
+        await tasks.updateOne({ taskTitle, name }, { $set: { completed: completed } });
         res.send("OK");
       }
     } catch (error) {
